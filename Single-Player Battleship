@@ -1,0 +1,269 @@
+import math 
+
+
+## Deployments is a (listof (listof Nat))
+## Requires:
+##   The length of the outer list is 5.
+##   The length of the first inner list is 5.
+##   The length of the second inner list is 4.
+##   The length of the third inner list is 3.
+##   The length of the fourth inner list is 3.
+##   The length of the fifth inner list is 2.
+
+## A Board is a (listof (listof Str))
+## Requires:
+##   The length of the outer list is 10.
+##   The length of each inner list is 10.
+##   Each string is '.', 'C', 'B', 'D', 'S', or 'P'.
+
+
+input_prompt = "Enter a guess: "
+invalid_text = "You must enter a number between 1 and 100!"
+hit_msg = "Hit!"
+miss_msg = "Miss!"
+game_over_msg = "Game Over!"
+
+
+L1=[[96, 97, 98, 99, 100],[42, 52, 62, 72],[20, 30, 40],[55, 56, 57],[21,22]]
+
+
+empty_lst=[['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.'],\
+['.','.','.','.','.','.','.','.','.','.']]
+
+
+
+def outer_index(val):
+  '''
+  Returns the row number of val on board.
+  
+  outer_index: Nat -> Nat
+  Requires:
+  0<=val<=100
+  
+  '''
+  if 1<=val<=10:
+    return 0
+  elif 11<=val<=20:
+    return 1
+  elif 21<=val<=30:
+    return 2
+  elif 31<=val<=40:
+    return 3
+  elif 41<=val<=50:
+    return 4
+  elif 51<=val<=60:
+    return 5
+  elif 61<= val<= 70:
+    return 6
+  elif 71<= val<= 80:
+    return 7
+  elif 81<= val<= 90:
+    return 8
+  else:
+    return 9
+
+
+def change_val(L,val,char):
+  '''
+  Returns L changed such that the val element of L becomes char                 
+  
+  change_val: Board Nat Str -> (listof (listof Any))
+  
+  '''
+  outer=outer_index(val)
+  inner=(val%10)-1
+  L[outer][inner]=char
+  return L
+
+
+def element_change(ship_type,char,gameboard):
+  '''
+  Returns gameboard altered such that the elements in gameboard 
+  corresponding to those in ship_type become Char
+  
+  element_change:(listof Nat) Str Board -> Board
+  
+  '''
+  lst=gameboard
+  for pos in range(len(ship_type)):
+    lst=change_val(lst,ship_type[pos],char)
+  return lst
+
+
+def make_board(deployments,gameboard):                                        
+  '''
+  Returns the cells of the gameboard changed to either 'C','B','D','S', or 'P'
+  depending on the outer list index of deployments, and the elements 
+  corresponding to cells on gameboard present in each inner list.
+  
+  make_board: Deployments Board -> Board
+  
+  '''
+  carriers=element_change(deployments[0],'C',gameboard)
+  battleship=element_change(deployments[1],'B',carriers)
+  destroyer=element_change(deployments[2],'D',battleship)
+  submarine=element_change(deployments[3],'S',destroyer)
+  return (element_change(deployments[4],'P',submarine))
+
+
+def line_board(L):
+  '''
+  Returns all elements in L as a one string with 
+  each element in L seperated qby a space.
+  
+  line_board: (listof Str) -> Str
+
+  '''
+  empty=''
+  for pos in range(len(L)):
+    empty=empty+(L[pos]+' ')
+  return empty.rstrip()
+
+
+def input_check(val):
+  '''
+  Returns True if val is string made 
+  of a number between 1 and 100 (inclusive).
+  Returns False otherwise
+  
+  num_check: Str -> Bool
+  '''
+  if val.isnumeric():
+    if 0<=int(val)<=100:
+      return True
+    else:
+      return False
+  else:
+    return False
+
+
+def element_check(L,val):
+  '''
+  Returns True if val is an element of L
+  Returns False otherwise
+  
+  element_check: (listof Nat) Nat -> Bool
+  '''
+  for i in L: 
+    if(i == val): 
+      return True
+  return False
+
+
+def print_message(val):
+  '''
+  Returns "Hit!" if val is greater than zero and "Miss!" otherwise
+  
+  print_message: Nat -> Str
+  
+  '''
+  if val>0:
+    return hit_msg
+  else:
+    return miss_msg
+
+
+def battleship(deployments):                                              
+  '''
+  Returns the number of valid guesses made by the user, once
+  all numbers in deployments have been guessed at least once by the user.
+  Once all guesses have been made prints "Game Over!", and 
+  the gameboard altered such that the cells in gameboard 
+  corresponding to those in deployments have become C,S,B,D,P accordingly. 
+  Further, if the input entered by the user is invalid prints 
+  "You must enter a number between 1 and 100!." ,and 
+  will then re-prompt the user to enter a guess. 
+  If the input entered by the user is valid but missed all of the ships,
+  print "Miss!". If the input entered by the user is valid but 
+  and hit one of the ships prints "Hit!". 
+  
+  Effects:
+  Reads input from screen
+  Prints to screen
+  
+  game_over: Deployments -> Int  
+  
+  Examples:
+  L1=[[96, 97, 98, 99, 100],[42, 52, 62, 72],[20, 30, 40],[55, 56, 57],[21,22]]
+  battleship(L1) => 17
+  
+  If the user enters:'96', '97', '98', '99', '100','42', '52', '62', \
+  '72','40', '20', '30','55', '56', '57','21', '22'
+
+  in the above order when prompted by "Enter a guess: "
+  
+  Prints "Hit!" 17 times and then "Game Over!" and 
+  then 
+  '. . . . . . . . . .',\
+  '. . . . . . . . . D',\
+  'P P . . . . . . . D',\
+  '. . . . . . . . . D',\
+  '. B . . . . . . . .',\
+  '. B . . S S S . . .',\
+  '. B . . . . . . . .',\
+  '. B . . . . . . . .',\
+  '. . . . . . . . . .',\
+  '. . . . . C C C C C')
+  
+ battleship(L1) => 18
+ 
+ If the user enters:
+ 'ty','15','96', '97', '98', '99', '100','42', '52', '62', \
+ '72','40', '20', '30','55', '56', '57','21', '22'
+ in the above order when prompted by "Enter a guess: "
+  
+ Prints "You must enter a number between 1 and 100!" then 
+ "Miss!", then "Hit!" 17 times and then "Game Over!" and 
+ then 
+ '. . . . . . . . . .',\
+ '. . . . . . . . . D',\
+ 'P P . . . . . . . D',\
+ '. . . . . . . . . D',\
+ '. B . . . . . . . .',\
+ '. B . . S S S . . .',\
+ '. B . . . . . . . .',\
+ '. B . . . . . . . .',\
+ '. . . . . . . . . .',\
+ '. . . . . C C C C C')
+
+ 
+  '''
+  board=make_board(deployments,empty_lst)
+  hits=[]
+  valid_guess=0
+
+  while len(hits) < 17:
+    user_input=(input(input_prompt))
+    check=input_check(user_input)
+    if check==False:
+      print(invalid_text)
+    else:
+      hit_msg=0
+      valid_guess=valid_guess+1
+      for row in range(len(deployments)):
+        for col in range(len(deployments[row])):
+          if deployments[row][col]==int(user_input):
+            hit_msg=hit_msg+1
+            if element_check(hits,int(user_input))==False:
+              hits=hits+[int(user_input)]
+      print(print_message(hit_msg)) 
+  print(game_over_msg)
+  print(line_board(board[0]))
+  print(line_board(board[1]))
+  print(line_board(board[2]))
+  print(line_board(board[3]))
+  print(line_board(board[4]))
+  print(line_board(board[5]))
+  print(line_board(board[6]))
+  print(line_board(board[7]))
+  print(line_board(board[8]))
+  print(line_board(board[9]))
+  return valid_guess
