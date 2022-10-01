@@ -1,0 +1,39 @@
+import math 
+
+L = [6,1,2,3,3,4,5,6,136635]
+
+
+def find_replicates(L,target):
+  '''
+  Returns True if target is found in L more than once, and False otherwise.
+  
+  find_replace: (listof Nat) -> Nat
+  Requires:
+  L is sorted in ascending order
+  
+  '''
+  beginning = 0
+  end = len(L)
+  while beginning < end:
+    mid = (beginning + end)//2
+    if mid==len(L)-1:
+      if L[mid]==L[mid-1]:
+        return True
+      else:
+        return False
+    elif L[mid] == target:
+      if L[mid]==L[mid+1] or L[mid]==L[mid-1]:
+        return True
+      else:
+        return False
+    elif L[mid] > target :
+      end = mid
+    else:
+      beginning = mid + 1
+  return False
+
+
+def remove_duplicates(L):
+  '''
+  Returns None and 
+  mutates all elements that appear more than once in L with -1. 
