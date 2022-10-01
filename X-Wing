@@ -1,0 +1,55 @@
+import math
+##Top Half of the X-wing
+def line_top(n,i):
+  '''
+  Returns the string corresponding to the ith line 
+  of the top half of an X-wing size n 
+  
+  line_top: Nat Nat->Str
+  Requires:
+  n>0
+  i<=n-1
+  
+  '''
+  top_i_line=(i*" ")+("\\"+"\\")+(n-i-1)*" "\
+      +("|"*5)+(n-i-1)*" "+"//"+(i*" ")
+  
+  return (top_i_line)
+
+def top_line_code(n,i):
+  '''
+  Returns all strings corresponding to the top half of an X-wing
+  of size n beginning at line i 
+  down to the last line of the top half.
+  
+  top_line_code: Nat Nat-> Str
+  Requires:
+  n>0
+  i<=n-1
+  '''
+  if n-1==i:
+    return line_top(n,i)
+  else:
+    return line_top(n,i)+ "\n"+top_line_code(n,i+1)
+    
+
+##Midle line of an X-wing:
+def middle_line(n):
+  '''
+  Returns the string corresponding 
+  to the middle line of an x-wing of size n
+  
+  middle_line: Nat-> Str
+  Requires:
+  n>0
+  
+  '''
+  middle=((n+1)*" ")+"||"+"o"+"||"+((n+1)*" ")
+  return (middle)
+
+
+##Bottom Half of an X-wing:
+def line_bottom(n,i):
+  '''
+  Returns the string corresponding to ith line of the bottom half
+  of an X-wing of size n  
