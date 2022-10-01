@@ -1,0 +1,44 @@
+import math
+
+def palindrome_checker(string):
+  '''
+  Returns True if string is a palindrome and false if not.
+  
+  palindrom_checker:Str -> Bool
+  '''
+  if string[::-1]==string:
+    return True
+  else:
+    return False
+
+
+def specific_palindrome(string,pos,acc):
+  '''
+  Returns the number of palindromes within string 
+  that are pos long, appended to the intermediary answer in acc.
+  
+  specific_palindrome: Str Nat Nat -> Nat
+  pos>1
+  pos<len(string)
+  
+  '''
+  if pos>(len(string)):
+    return acc
+  else:
+    if palindrome_checker(string[0:pos])==True:
+      return specific_palindrome(string[1:],pos,acc+1)
+    else:
+      return specific_palindrome(string[1:],pos,acc)
+
+
+def palindrome_counter(S,counter,acc):
+  '''
+  Returns the total number of palindromes within the non-palindromic string 
+  S, starting from palindromes of length counter to length of string, 
+  appended to the intermediary answer in acc.
+  
+  palindrome_counter: Str Nat Nat -> Nat
+  counter<length of S
+  
+  '''
+  val=len(S)
