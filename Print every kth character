@@ -1,0 +1,11 @@
+def alphabet(num):
+ alp=[]
+ while num<=122:
+  v=chr(num)
+  alp=alp+[v]
+  num=num+1
+return alp
+
+def print_every_kth_char(k):
+'''
+Prints every kth 
