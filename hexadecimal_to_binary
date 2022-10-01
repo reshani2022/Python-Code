@@ -1,0 +1,63 @@
+import math
+
+
+invalid_text = "Invalid Number!"
+
+
+def valid_hex(L):
+  '''
+  Returns True if L is composed of only elements that are
+  valid hexadecimal characters.
+  Returns False otherwise.
+  
+  valid_num:(listof Any) -> Bool
+  
+  '''
+  for pos in range(len(L)):
+    if L[pos]!= '1' and L[pos]!='0' and L[pos]!='2' and L[pos]!='3' and\
+      L[pos]!='4' and L[pos]!='5' and L[pos]!='6' and L[pos]!='7' and \
+      L[pos]!='8' and L[pos]!='9' and L[pos]!='A' and L[pos]!='B' and \
+      L[pos]!='C' and L[pos]!='D' and L[pos]!='E' and L[pos]!='F':
+        return False
+  else:
+    return True
+
+
+def convert_hex(L):
+  '''
+  Returns a string composed of the corresponding binary number 
+  of each element in L in the order in which they appear.
+  
+  convert_hex: (listof Str) -> Str
+  Requires:
+  All elements in L are valid hexadecimal digits
+  0<len(L)<= 16
+  '''
+  val=''
+  for pos in range(len(L)):
+    if L[pos]=='0':
+      val=val+'0000'+' '
+    elif L[pos]=='1':
+      val=val+'0001'+' '
+    elif L[pos]=='2':
+      val=val+'0010'+' '
+    elif L[pos]=='3':
+      val=val+'0011'+' '
+    elif L[pos]=='4':
+      val=val+'0100' +' '
+    elif L[pos]=='5':
+      val=val+'0101'+' '
+    elif L[pos]=='6':
+      val=val+'0110' +' '
+    elif L[pos]=='7':
+      val=val+'0111'+ ' '
+    elif L[pos]=='8':
+      val=val+'1000'+' '
+    elif L[pos]=='9':
+      val=val+'1001'+' '
+    elif L[pos]=='A':
+      val=val+'1010' +' '
+    elif L[pos]=='B':
+      val=val+'1011'+' '
+    elif L[pos]=='C':
+      val=val+'1100'+' '
