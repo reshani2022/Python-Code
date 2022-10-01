@@ -1,0 +1,83 @@
+#This program consumes a valid day in the Gregorian Calendar and returns how many days until Christmas
+
+import math 
+
+
+def leap_year(year):
+  '''
+  Returns True if input year is a leap year and false if not.
+  
+  leap_year: Nat=>Bool
+  
+  '''
+  if (year%400)==0:
+    return True
+  elif (((year%4)==0) and ((year%100)!=0)):
+    return True
+  else:
+    return False
+  
+
+def non_leap(day,month,year):
+  '''
+  Returns number days from the input Georgian date (day,month,year)
+  until christmas.
+  
+  non_leap:Nat Nat Nat=> Nat
+  Requires:
+  year = not a leap year
+  Valid day in the Georgian Calendar
+  
+  '''
+  
+  if month==12 and day<25:
+    return (25-day)
+  elif month==12 and day==25:
+    return 0
+  elif month==12 and day>25:
+    if leap_year(year+1)==True:
+      return 359+(32-day)
+    else:
+      return 358+(32-day)
+  else:
+    if month==1:
+      return 359-day
+    elif month==2:
+      return 328-day
+    elif month==3:
+      return 300-day
+    elif month==4:
+      return 269-day
+    elif month==5:
+      return 239-day
+    elif month==6:
+      return 208-day
+    elif month==7:
+      return 178-day
+    elif month==8:
+      return 146-day
+    elif month==9:
+      return 116-day
+    elif month==10:
+      return 86-day
+    elif month==11:
+      return 55-day
+
+
+def days_until_christmas(day, month, year):   
+  '''
+  Returns how many days until Christmas.
+  
+  days_until_christmas(day,month,year): Nat Nat Nat=>Nat
+  Requires:
+  valid day in the Gregorian Calendar
+  
+  Examples:
+  days_until_christmas(24, 12, 7122)=>1
+  days_until_christmas(25, 12, 2019)=>0
+  
+  '''
+  if (leap_year(year)==True) and (month==1 or month==2):
+    return non_leap(day,month,year)+1
+  else:
+    return non_leap(day,month,year)
