@@ -1,0 +1,17 @@
+import math 
+def dot_product(v1,v2):
+  '''
+  Returns the dot product of vectors v1 and v2. Requirements of a dot product calculation apply.
+
+  dot_product: (listof Num) (listof Num) -> (listof Num)
+  '''
+  val=0
+  k=len(v1)-1
+  #print(k)
+  starter=0
+  while starter<=k:
+    v_1=v1[starter]*v2[starter]
+    #print(v_1)
+    val=val+v_1
+    starter=starter+1
+  return val 
