@@ -54,3 +54,80 @@ def line_bottom(n,i):
   '''
   Returns the string corresponding to ith line of the bottom half
   of an X-wing of size n  
+ line_code: Nat Nat->Str 
+  Requires:
+  n>0
+  i<=n-1
+  
+  '''
+  bottom_i_line=((n-i-1)*" ")+"//"+(i*" ")\
+       +"|||||"+(i*" ")+("\\"+"\\")+((n-i-1)*" ")
+  return bottom_i_line
+
+
+def bottom_line_code(n,i):
+  '''
+  Returns all strings corresponding to the bottom half of an X-wing of size n 
+  starting at the ith line
+  & continuing down to the last line of the bottom half.
+  
+  bottom_line_code: Nat Nat-> Str
+  Requires:
+  n>0
+  i<=n-1
+  
+  '''
+  if n-1==i:
+     return line_bottom(n,i)
+  else:
+    return line_bottom(n,i)+ "\n"+bottom_line_code(n,i+1)  
+
+
+##Putting it all together:
+def make_xwing(n,i):
+'''
+  Returns all strings corresponding to a drawing 
+  of an X-wing of size n starting at the ith line of the top half and
+  continuing until the last line of the X-wing.
+  
+  make_xwing:Nat Nat-> Str
+  Requires:
+  n>0
+  i<=n-1
+  '''
+  bottom_half=bottom_line_code(n,i).rstrip("\n")
+  top_half=top_line_code(n,i).rstrip("\n")
+  
+  x_wing_string=top_half+"\n"+middle_line(n)+"\n"+bottom_half
+  return x_wing_string 
+
+def x_wing():
+  '''
+  Prints an x-wing of size n on the screen
+  
+  Effects: Prints to the screen 
+  
+  x_wing: Nat-> None
+  Requires:
+  n>0
+  
+  Examples:
+  If the user enters "5" when prompted by
+  x_wing()=>None
+  and an X-wing of size 5 is printed on the screen 
+  
+  If the user enters "1" when prompted by 
+  x_wing()=> None
+  and an X-wing of size 1 is printed on the screen 
+  
+  '''
+print("Welcome, let's draw an X-wing!")
+n=input("enter a natural number ")
+if n.isnumeric()==True:
+    structure_wing=make_xwing(int(n),0)
+    print(structure_wing)
+else:
+      print("sorry, x-wings can only be drawn when given a natural number")
+
+
+
